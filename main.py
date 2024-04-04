@@ -11,7 +11,7 @@ window.title(APP_NAME)
 window.minsize(width=1000, height=600)
 window.config(padx=20, pady=20)
 
-# User inputscrolledtext.ScrolledText
+# User input
 text_box = scrolledtext.ScrolledText(height=15, width=50, font=FONT, wrap=tk.WORD)
 text_box.focus()
 text_box.config(pady=20, padx=20)
