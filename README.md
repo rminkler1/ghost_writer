@@ -3,11 +3,7 @@ A writing prompt where the text you type dissapears if you take too long to writ
 
 Roadmap:
 
-tkinter UI
-
 Random prompts
-
-Save text file
 
 Settings:
 Random prompts?

@@ -1,17 +1,18 @@
 import tkinter as tk
-from tkinter import scrolledtext, filedialog
 from datetime import datetime
+from tkinter import scrolledtext, filedialog
 
 # Constants
 APP_NAME = "Ghost Writer"
 FONT = ("Arial", 30, "bold")
-RED_GRAD = ["#FFFFFF", "#FFE2E2", "#FFC6C6", "#FFAAAA", "#FF8D8D", "#FF7171", "#FF5555", "#FF3838", "#FF1C1C", "#FF0000", "#00ff00"]
+RED_GRAD = ["#FFFFFF", "#FFE2E2", "#FFC6C6", "#FFAAAA", "#FF8D8D", "#FF7171", "#FF5555", "#FF3838", "#FF1C1C",
+            "#FF0000", "#00ff00"]
 
 # Time tracking
 start_time = None
 last_key_press = datetime.now()
 time_out_seconds = 10
-seconds_till_safe_from_delete = 60     # five minutes == 300 seconds
+seconds_till_safe_from_delete = 300  # five minutes == 300 seconds
 
 
 def timer_control(key):
@@ -66,7 +67,7 @@ def check_time_remaining():
 
 def file_save():
     f = filedialog.asksaveasfile(mode='w', defaultextension=".txt")
-    if f: # asksaveasfile return `None` if dialog closed with "cancel".
+    if f:  # asksaveasfile return `None` if dialog closed with "cancel".
         text2save = str(text_box.get(1.0, tk.END))
         f.write(text2save)
         f.close()
@@ -74,9 +75,12 @@ def file_save():
 
 def window_reset():
     global start_time
+    # clear text box text
     text_box.delete("1.0", tk.END)
+    # change color to white
     window.config(background=RED_GRAD[0])
     button_frame.config(background=RED_GRAD[0])
+    # reset timer
     start_time = None
 
 
@@ -92,7 +96,7 @@ text_box.focus()
 text_box.config(pady=20, padx=20)
 text_box.pack()
 
-
+# button frame begin
 button_frame = tk.Frame(window, bg=RED_GRAD[0])
 
 # Save Button
@@ -103,6 +107,7 @@ save_button.pack(side=tk.RIGHT, padx=5)
 reset_button = tk.Button(button_frame, text="Reset", command=window_reset, height=3, width=10)
 reset_button.pack(side=tk.LEFT, padx=5)
 
+# button frame pack
 button_frame.pack()
 
 # Listen for Keypress
