@@ -46,11 +46,10 @@ def check_time_remaining():
             if percent_to_wipe >= 1:    # if percent to wipe >= 100% ... wipe text box and reset
                 window_reset()
             else:
-                # change color to red
-                number = int(percent_to_wipe * 10)
-                if number > 9:
-                    number = 9
-                color_index = number
+                # set color. from white to red, or green once safe.
+                color_index = int(percent_to_wipe * 10)  # set index from 0-9 for white to red. index 10 == green
+                if color_index > 9:
+                    color_index = 9
 
                 window.config(background=RED_GRAD[color_index])
                 button_frame.config(background=RED_GRAD[color_index])
