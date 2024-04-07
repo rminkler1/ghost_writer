@@ -30,6 +30,9 @@ def timer_control(key):
 
 
 def check_time_remaining():
+    """
+    Program logic. Runs every 500 ms.
+    """
     global start_time, last_key_press, seconds_till_safe_from_delete
 
     # Until 5 min have passed, delete text if no typing has occurred recently.
@@ -37,14 +40,11 @@ def check_time_remaining():
         seconds_since_start = (datetime.now() - start_time).total_seconds()
 
         # if 5 min has not passed, check delete timer
-        if seconds_since_start <= seconds_till_safe_from_delete:
-            seconds_since_key_press = (datetime.now() - last_key_press).total_seconds()
-            percent_to_wipe = seconds_since_key_press / time_out_seconds
-            if percent_to_wipe >= 1:
-                # delete text
-                text_box.delete("1.0", tk.END)
-                # reset timers
-                start_time = None
+        if seconds_since_start <= seconds_till_safe_from_delete:  # proceed if less than 5 min (or set time) has passed
+            seconds_since_key_press = (datetime.now() - last_key_press).total_seconds()  # time since keypress
+            percent_to_wipe = seconds_since_key_press / time_out_seconds     # convert time to percentage 1 == 100%
+            if percent_to_wipe >= 1:    # if percent to wipe >= 100% ... wipe text box and reset
+                window_reset()
             else:
                 # change color to red
                 number = int(percent_to_wipe * 10)
@@ -54,8 +54,6 @@ def check_time_remaining():
 
                 window.config(background=RED_GRAD[color_index])
                 button_frame.config(background=RED_GRAD[color_index])
-
-
         else:
             # turn window green when safe
             window.config(background=RED_GRAD[10])
@@ -66,6 +64,10 @@ def check_time_remaining():
 
 
 def file_save():
+    """
+    Saves typed text to a txt file.
+    Uses filedialog for naming and location.
+    """
     f = filedialog.asksaveasfile(mode='w', defaultextension=".txt")
     if f:  # asksaveasfile return `None` if dialog closed with "cancel".
         text2save = str(text_box.get(1.0, tk.END))
@@ -74,6 +76,10 @@ def file_save():
 
 
 def window_reset():
+    """
+    Resets the window on reset button press.
+    Text and counters cleared.
+    """
     global start_time
     # clear text box text
     text_box.delete("1.0", tk.END)
