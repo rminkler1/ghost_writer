@@ -2,6 +2,13 @@ import tkinter as tk
 from datetime import datetime
 from tkinter import scrolledtext, filedialog, simpledialog
 
+# version check Python Interpreter crash 3.12.0 and earlier
+import sys
+MIN_PYTHON = (3, 12, 1)
+print(sys.version_info)
+if sys.version_info < MIN_PYTHON:
+    sys.exit("Python %s.%s.%s or later is required.\n" % MIN_PYTHON)
+
 # Constants
 APP_NAME = "Ghost Writer"
 FONT = ("Arial", 30, "bold")
