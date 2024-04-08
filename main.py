@@ -1,6 +1,6 @@
 import tkinter as tk
 from datetime import datetime
-from tkinter import scrolledtext, filedialog
+from tkinter import scrolledtext, filedialog, simpledialog
 
 # Constants
 APP_NAME = "Ghost Writer"
@@ -11,8 +11,30 @@ RED_GRAD = ["#FFFFFF", "#FFE2E2", "#FFC6C6", "#FFAAAA", "#FF8D8D", "#FF7171", "#
 # Time tracking
 start_time = None
 last_key_press = datetime.now()
-time_out_seconds = 10
-seconds_till_safe_from_delete = 300  # five minutes == 300 seconds
+
+# prompt for settings
+time_out_seconds = simpledialog.askinteger(title="Seconds until screen wipe",
+                                           prompt="How many seconds of inactivity before the screen is wiped? "
+                                                  "\nRecommendation of 5-15 seconds.",
+                                           initialvalue=10,
+                                           minvalue=1
+                                           )
+minutes_to_write = simpledialog.askinteger(title="Minutes to write.",
+                                           prompt="Choose the duration in minutes until your work is secure. \n"
+                                                  "The editor will delete your work if you pause typing "
+                                                  "\nbefore the specified period has passed.",
+                                           initialvalue=5,
+                                           minvalue=1
+                                           )
+
+# set defaults if dialogs are cancelled
+if not time_out_seconds:
+    time_out_seconds = 10
+if not minutes_to_write:
+    minutes_to_write = 5
+
+# convert minutes to seconds
+seconds_till_safe_from_delete = minutes_to_write * 60  # five minutes == 300 seconds
 
 
 def timer_control(key):
@@ -42,8 +64,8 @@ def check_time_remaining():
         # if 5 min has not passed, check delete timer
         if seconds_since_start <= seconds_till_safe_from_delete:  # proceed if less than 5 min (or set time) has passed
             seconds_since_key_press = (datetime.now() - last_key_press).total_seconds()  # time since keypress
-            percent_to_wipe = seconds_since_key_press / time_out_seconds     # convert time to percentage 1 == 100%
-            if percent_to_wipe >= 1:    # if percent to wipe >= 100% ... wipe text box and reset
+            percent_to_wipe = seconds_since_key_press / time_out_seconds  # convert time to percentage 1 == 100%
+            if percent_to_wipe >= 1:  # if percent to wipe >= 100% ... wipe text box and reset
                 window_reset()
             else:
                 # set color. from white to red, or green once safe.
@@ -62,16 +84,17 @@ def check_time_remaining():
     window.after(500, check_time_remaining)
 
 
-def file_save():
+def save_to_file():
     """
     Saves typed text to a txt file.
     Uses filedialog for naming and location.
     """
-    f = filedialog.asksaveasfile(mode='w', defaultextension=".txt")
-    if f:  # asksaveasfile return `None` if dialog closed with "cancel".
-        text2save = str(text_box.get(1.0, tk.END))
-        f.write(text2save)
-        f.close()
+    file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text files", "*.txt"),
+                                                                                 ("All files", "*.*")])
+    if file_path:
+        with open(file_path, 'w') as file:
+            text_content = text_box.get("1.0", "end-1c")
+            file.write(text_content)
 
 
 def window_reset():
@@ -105,7 +128,7 @@ text_box.pack()
 button_frame = tk.Frame(window, bg=RED_GRAD[0])
 
 # Save Button
-save_button = tk.Button(button_frame, text="Save", command=file_save, height=3, width=10)
+save_button = tk.Button(button_frame, text="Save", command=save_to_file, height=3, width=10)
 save_button.pack(side=tk.RIGHT, padx=5)
 
 # Reset Button
