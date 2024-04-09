@@ -2,7 +2,7 @@ import tkinter as tk
 from datetime import datetime
 from tkinter import scrolledtext, filedialog, simpledialog
 
-# version check Python Interpreter crash 3.12.0 and earlier
+# version check * tkinter causes Python Interpreter crash 3.12.0 and earlier
 import sys
 MIN_PYTHON = (3, 12, 1)
 print(sys.version_info)
@@ -143,11 +143,12 @@ reset_button = tk.Button(button_frame, text="Reset", command=window_reset, heigh
 reset_button.pack(side=tk.LEFT, padx=5)
 
 # button frame pack
-button_frame.pack()
+button_frame.pack(pady=10)
 
 # Listen for Keypress
 text_box.bind("<KeyPress>", timer_control)
 
+# Begin timers. check every 500ms
 check_time_remaining()
 
 window.mainloop()
