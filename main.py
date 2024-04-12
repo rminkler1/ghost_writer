@@ -12,8 +12,10 @@ if sys.version_info < MIN_PYTHON:
 # Constants
 APP_NAME = "Ghost Writer"
 FONT = ("Arial", 30, "bold")
-RED_GRAD = ["#FFFFFF", "#FFE2E2", "#FFC6C6", "#FFAAAA", "#FF8D8D", "#FF7171", "#FF5555", "#FF3838", "#FF1C1C",
-            "#FF0000", "#00ff00"]
+RED_GRAD = ["#FFFFFF",  # white
+            "#FFE2E2", "#FFC6C6", "#FFAAAA", "#FF8D8D", "#FF7171", "#FF5555", "#FF3838", "#FF1C1C", "#FF0000",  # 9 reds
+            "#00ff00"   # green
+            ]
 
 # Time tracking
 start_time = None
@@ -44,7 +46,7 @@ if not minutes_to_write:
 seconds_till_safe_from_delete = minutes_to_write * 60  # five minutes == 300 seconds
 
 
-def timer_control(key):
+def timer_control(key) -> None:
     """
     (KeyPress) -> NoneType
 
@@ -58,7 +60,7 @@ def timer_control(key):
         start_time = last_key_press
 
 
-def check_time_remaining():
+def check_time_remaining() -> None:
     """
     Program logic. Runs every 500 ms.
     """
@@ -80,18 +82,17 @@ def check_time_remaining():
                 if color_index > 9:
                     color_index = 9
 
-                window.config(background=RED_GRAD[color_index])
-                button_frame.config(background=RED_GRAD[color_index])
+                # Change Window Color
+                window_bg_color_change(color_index)
         else:
             # turn window green when safe
-            window.config(background=RED_GRAD[10])
-            button_frame.config(background=RED_GRAD[10])
+            window_bg_color_change(10)
 
     # check time every half second
     window.after(500, check_time_remaining)
 
 
-def save_to_file():
+def save_to_file() -> None:
     """
     Saves typed text to a txt file.
     Uses filedialog for naming and location.
@@ -104,7 +105,7 @@ def save_to_file():
             file.write(text_content)
 
 
-def window_reset():
+def window_reset() -> None:
     """
     Resets the window on reset button press.
     Text and counters cleared.
@@ -113,10 +114,21 @@ def window_reset():
     # clear text box text
     text_box.delete("1.0", tk.END)
     # change color to white
-    window.config(background=RED_GRAD[0])
-    button_frame.config(background=RED_GRAD[0])
+    window_bg_color_change(0)
     # reset timer
     start_time = None
+
+
+def window_bg_color_change(color_index: int) -> None:
+    """
+    Change the background color of all elements in the window.
+    Use -> RED_GRAD[color_index]
+
+    Precondition: 0 <= color_index < len(RED_GRAD)
+    """
+    window.config(background=RED_GRAD[color_index])
+    button_frame.config(background=RED_GRAD[color_index])
+    prompt.config(background=RED_GRAD[color_index])
 
 
 # Window config
@@ -124,6 +136,9 @@ window = tk.Tk()
 window.title(APP_NAME)
 window.minsize(width=500, height=500)
 window.config(padx=20, pady=20, background=RED_GRAD[0])
+
+prompt = tk.Label(window, wraplength=900, bg=RED_GRAD[0], font=FONT)
+prompt.pack(pady=(0, 15))
 
 # User input
 text_box = scrolledtext.ScrolledText(height=15, width=50, font=FONT, wrap=tk.WORD)
