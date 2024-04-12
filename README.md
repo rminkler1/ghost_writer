@@ -8,4 +8,4 @@ automatic deletion. Optional writing prompts are available to help the user begi
 
 Implemented using Python programming language and tkinter, Ghost Writer offers a streamlined solution for writers seeking to optimize their writing process.
 
-### Requires Python 3.12.1 or later
+### Requires Python 3.12.1 or later due to tkinter bug
