@@ -5,10 +5,3 @@ It forces the user to write quickly to get ideas on
 the page.
 
 ### Requires Python 3.12.1 or later
-
-## Roadmap:
-
-Random prompts
-
-Settings:
-Random prompts?

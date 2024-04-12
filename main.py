@@ -1,7 +1,8 @@
 import tkinter as tk
 from datetime import datetime
-from tkinter import scrolledtext, filedialog, simpledialog
-
+from tkinter import scrolledtext, filedialog, simpledialog, messagebox
+from prompts import prompts
+import random
 # version check * tkinter causes Python Interpreter crash 3.12.0 and earlier
 import sys
 MIN_PYTHON = (3, 12, 2)     # require 3.12.1 or higher
@@ -15,39 +16,6 @@ RED_GRAD = ["#FFFFFF",  # white
             "#FFE2E2", "#FFC6C6", "#FFAAAA", "#FF8D8D", "#FF7171", "#FF5555", "#FF3838", "#FF1C1C", "#FF0000",  # 9 reds
             "#00ff00"   # green
             ]
-
-# Time tracking
-start_time = None
-last_key_press = datetime.now()
-
-# Initialize tkinter
-window = tk.Tk()
-window.withdraw()   # hide parent window until later
-
-# prompt for settings
-time_out_seconds = simpledialog.askinteger(title="Seconds until screen wipe",
-                                           prompt="How many seconds of inactivity before the screen is wiped? "
-                                                  "\nRecommendation of 5-15 seconds.",
-                                           initialvalue=10,
-                                           minvalue=1
-                                           )
-minutes_to_write = simpledialog.askinteger(title="Minutes to write.",
-                                           prompt="Choose the duration in minutes until your work is secure. \n"
-                                                  "The editor will delete your work if you pause typing "
-                                                  "\nbefore the specified period has passed.",
-                                           initialvalue=5,
-                                           minvalue=1
-                                           )
-prompt = simpledialog.Dialog(window, title="text")
-
-# set defaults if dialogs are cancelled
-if not time_out_seconds:
-    time_out_seconds = 10
-if not minutes_to_write:
-    minutes_to_write = 5
-
-# convert minutes to seconds
-seconds_till_safe_from_delete = minutes_to_write * 60  # five minutes == 300 seconds
 
 
 def timer_control(key) -> None:
@@ -135,15 +103,55 @@ def window_bg_color_change(color_index: int) -> None:
     prompt.config(background=RED_GRAD[color_index])
 
 
-# Window config
+# Time tracking
+start_time = None
+last_key_press = datetime.now()
+
+# prompt for settings
+time_out_seconds = simpledialog.askinteger(title="Seconds until screen wipe",
+                                           prompt="How many seconds of inactivity before the screen is wiped? "
+                                                  "\nRecommendation of 5-15 seconds.",
+                                           initialvalue=10,
+                                           minvalue=1
+                                           )
+minutes_to_write = simpledialog.askinteger(title="Minutes to write.",
+                                           prompt="Choose the duration in minutes until your work is secure. \n"
+                                                  "The editor will delete your work if you pause typing "
+                                                  "\nbefore the specified period has passed.",
+                                           initialvalue=5,
+                                           minvalue=1
+                                           )
+choose_prompt = False
+
+while not choose_prompt:
+    random_prompt = random.choice(prompts)
+    choose_prompt = messagebox.askyesnocancel(title="Writing Prompt", message=f"Use this prompt?\nNo generates a new prompt.\nCancel proceeds with no prompt.\n\n{random_prompt}")
+
+    # break out of while loop if cancel is selected
+    if choose_prompt == None:
+        break
+
+
+# set defaults if dialogs are cancelled
+if not time_out_seconds:
+    time_out_seconds = 10
+if not minutes_to_write:
+    minutes_to_write = 5
+
+# convert minutes to seconds
+seconds_till_safe_from_delete = minutes_to_write * 60  # five minutes == 300 seconds
+
+
+# Initialize tkinter
+window = tk.Tk()
 window.title(APP_NAME)
 window.minsize(width=500, height=500)
 window.config(padx=20, pady=20, background=RED_GRAD[0])
-window.deiconify()  # Show hidden parent window
 
 
-prompt = tk.Label(window, wraplength=900, bg=RED_GRAD[0], font=FONT)
-prompt.pack(pady=(0, 15))
+if choose_prompt:
+    prompt = tk.Label(window, text=random_prompt, font=FONT, bg=RED_GRAD[0], fg="#000000", wraplength=900)
+    prompt.pack(pady=(0, 15))
 
 # User input
 text_box = scrolledtext.ScrolledText(height=15, width=50, font=FONT, wrap=tk.WORD)
