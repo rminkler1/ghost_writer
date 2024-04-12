@@ -149,8 +149,8 @@ window.minsize(width=500, height=500)
 window.config(padx=20, pady=20, background=RED_GRAD[0])
 
 
+prompt = tk.Label(window, text=random_prompt, font=FONT, bg=RED_GRAD[0], fg="#000000", wraplength=900)
 if choose_prompt:
-    prompt = tk.Label(window, text=random_prompt, font=FONT, bg=RED_GRAD[0], fg="#000000", wraplength=900)
     prompt.pack(pady=(0, 15))
 
 # User input
