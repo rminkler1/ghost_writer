@@ -4,8 +4,7 @@ from tkinter import scrolledtext, filedialog, simpledialog
 
 # version check * tkinter causes Python Interpreter crash 3.12.0 and earlier
 import sys
-MIN_PYTHON = (3, 12, 1)
-print(sys.version_info)
+MIN_PYTHON = (3, 12, 2)     # require 3.12.1 or higher
 if sys.version_info < MIN_PYTHON:
     sys.exit("Python %s.%s.%s or later is required.\n" % MIN_PYTHON)
 
@@ -21,6 +20,10 @@ RED_GRAD = ["#FFFFFF",  # white
 start_time = None
 last_key_press = datetime.now()
 
+# Initialize tkinter
+window = tk.Tk()
+window.withdraw()   # hide parent window until later
+
 # prompt for settings
 time_out_seconds = simpledialog.askinteger(title="Seconds until screen wipe",
                                            prompt="How many seconds of inactivity before the screen is wiped? "
@@ -35,6 +38,7 @@ minutes_to_write = simpledialog.askinteger(title="Minutes to write.",
                                            initialvalue=5,
                                            minvalue=1
                                            )
+prompt = simpledialog.Dialog(window, title="text")
 
 # set defaults if dialogs are cancelled
 if not time_out_seconds:
@@ -132,10 +136,11 @@ def window_bg_color_change(color_index: int) -> None:
 
 
 # Window config
-window = tk.Tk()
 window.title(APP_NAME)
 window.minsize(width=500, height=500)
 window.config(padx=20, pady=20, background=RED_GRAD[0])
+window.deiconify()  # Show hidden parent window
+
 
 prompt = tk.Label(window, wraplength=900, bg=RED_GRAD[0], font=FONT)
 prompt.pack(pady=(0, 15))
