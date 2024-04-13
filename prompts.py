@@ -41,5 +41,24 @@ prompts = [
     "Write about yourself.",
     "You find a note you were never meant to see.",
     "As you go through your grandfather's belongings, you come across a locked chest. You force it open and find "
-    "folders marked \"TOP SECRET\". You begin looking through them and can't believe your eyes."
-]
+    "folders marked \"TOP SECRET\". You begin looking through them and can't believe your eyes.",
+    "You are about to work with your favorite celebrity.",
+    "You find a portal to another world.",
+    "You are a turkey. Tomorrow is Thanksgiving.",
+    "You explore a cave.",
+    "You dig a hole in your backyard and find some bones.",
+    "Today is your big day.",
+    "You've just entered the Bermuda Triangle.",
+    "You captain a ship. In the middle of the ocean. You encounter a ghost ship.",
+    "You can't back down now.",
+    "You make a bet that you can last the whole night in an abandoned house. You had no idea what was in store.",
+    "You normally ignore calls from unknown numbers. For some reason you picked up the call. Who would have imagined "
+    "that one decision would be life altering?.",
+    "You meet your clone. In the end, there can be only one.",
+    "You are lost in a forrest, far from civilization.",
+    "The plush Easter Bunny is alive!",
+    "Your superpower is teleportation.",
+    "You jump off of a bridge.",
+    "You're home alone on Halloween night.",
+    "You get sucked into a video game.",
+    ]
