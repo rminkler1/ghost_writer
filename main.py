@@ -154,7 +154,7 @@ if choose_prompt:
     prompt.pack(pady=(0, 15))
 
 # User input
-text_box = scrolledtext.ScrolledText(height=15, width=50, font=FONT, wrap=tk.WORD)
+text_box = scrolledtext.ScrolledText(height=10, width=50, font=FONT, wrap=tk.WORD)
 text_box.focus()
 text_box.config(pady=20, padx=20)
 text_box.pack()
