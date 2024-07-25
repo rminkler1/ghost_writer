@@ -1,4 +1,4 @@
-prompts = [
+prompts = (
     "After a long day of work, you sit down to watch some TV, but it shuts off on its own.You turn it back on, "
     "but it turns off again.",
     "You hear a large clap outside. You get up to look…",
@@ -61,4 +61,4 @@ prompts = [
     "You jump off of a bridge.",
     "You're home alone on Halloween night.",
     "You get sucked into a video game.",
-    ]
+)
